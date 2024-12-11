@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Система подачи жалоб и предложений</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Система подачи жалоб и предложений</h1>
+        <nav>
+            <a href="{% url 'index' %}">Главная</a>
+            <a href="{% url 'submit_appeal' %}">Подать жалобу/предложение</a>
+            <a href="{% url 'login' %}">Вход</a>  <!-- Ссылка на вход для авторизованных пользователей -->
+            <a href="{% url 'logout' %}">Выход</a> <!-- Ссылка на выход для авторизованных пользователей -->
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Здесь будет основное содержимое страницы -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Система подачи жалоб и предложений</p>
+    </footer>
+</body>
+</html>
