@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+    <h2>ЧАТ</h2>
+    <form action="" method="post">
+        <input type="text" placeholder="Текст запроса">
+        <label for="file_chat">
+            <img src="{% static 'images/file_icon.svg' %}" alt="file_image"><span id=""><input type="file" name="file_chat" id="file_chat"></span>
+        </label>
+    </form>
+{% endblock %}
