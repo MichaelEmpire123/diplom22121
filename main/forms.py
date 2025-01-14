@@ -1,6 +1,3 @@
-
-
-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -42,4 +39,3 @@ class UserRegistrationForm(UserCreationForm):
             # Создаём запись в модели Users
             Users.objects.create(user=user, id_citizen=citizen)
         return user
-

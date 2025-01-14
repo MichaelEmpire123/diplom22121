@@ -141,9 +141,14 @@ class Streets(models.Model):
 
 
 class Users(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # связь с встроенной моделью пользователя
-    id_citizen = models.ForeignKey(Citizens, on_delete=models.CASCADE, blank=True, null=True)  # Роль "житель"
-    id_sotrudnik = models.ForeignKey(Employees, on_delete=models.CASCADE, blank=True, null=True)  # Роль "сотрудник"
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True  # Указание, что это основное поле идентификатора
+    )
+    id_citizen = models.ForeignKey(Citizens, on_delete=models.CASCADE, blank=True, null=True)
+    id_sotrudnik = models.ForeignKey(Employees, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'users'
+
