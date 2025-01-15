@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load messages %}
 {% block content %}
     <h2>Регистрация</h2>
     <form method="POST">
@@ -6,4 +7,10 @@
         {{ form.as_p }}
         <button type="submit">Зарегистрироваться</button>
     </form>
+
+    <div class="messages">
+      {% for message in messages %}
+        <div class="{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
 {% endblock %}

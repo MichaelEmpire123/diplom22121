@@ -16,18 +16,12 @@ class UserRegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-
-        # Проверка на существующий email
-        if User.objects.filter(email=self.cleaned_data['email']).exists():
-            raise forms.ValidationError("Пользователь с таким email уже существует.")
-
         user.username = self.cleaned_data['email']  # Используем email как username
         user.email = self.cleaned_data['email']
 
         if commit:
             user.save()
-
-            # Создаём объект жителя для нового пользователя
+            # Создаем объект гражданина
             citizen = Citizens.objects.create(
                 surname=self.cleaned_data['surname'],
                 name=self.cleaned_data['name'],
@@ -35,7 +29,7 @@ class UserRegistrationForm(UserCreationForm):
                 tel=self.cleaned_data.get('tel', ''),
                 email=self.cleaned_data['email'],
             )
-
-            # Создаём запись в модели Users
+            # Создаем объект пользователя
             Users.objects.create(user=user, id_citizen=citizen)
+
         return user

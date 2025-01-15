@@ -4,14 +4,20 @@
     <title>Система подачи жалоб и предложений</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header>
         <h1>Система подачи жалоб и предложений</h1>
         <nav>
             <a href="{% url 'home' %}">Главная</a>
-            <a href="{% url 'register' %}">Вход</a>  <!-- Ссылка на вход для авторизованных пользователей -->
-            <a href="">Выход</a> <!-- Ссылка на выход для авторизованных пользователей -->
+            {% if user.is_authenticated %}
+                 <a href="{% url 'profile' %}">Профиль</a>
+                <a href="{% url 'logout' %}">Выход</a>
+            {% else %}
+                <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
         </nav>
     </header>
 

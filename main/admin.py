@@ -6,8 +6,8 @@ from .models import (
     Citizens,
     Employees,
     Messages,
-    Processing,
-    Services,
+    AppealProcesses,
+    CityServices,
     Statuses,
     Streets,
     Users,
@@ -20,8 +20,8 @@ admin.site.register(Cities)
 admin.site.register(Citizens)
 admin.site.register(Employees)
 admin.site.register(Messages)
-admin.site.register(Processing)
-admin.site.register(Services)
+admin.site.register(AppealProcesses)
+admin.site.register(CityServices)
 admin.site.register(Statuses)
 admin.site.register(Streets)
 admin.site.register(Users)

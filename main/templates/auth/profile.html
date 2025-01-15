@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Профиль пользователя</h2>
+    <p><strong>Имя пользователя:</strong> {{ user_profile.user.username }}</p>
+    <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+
+    {% if citizen %}
+       <h3>Информация о гражданине</h3>
+       <p><strong>Фамилия:</strong> {{ citizen.surname }}</p>
+       <p><strong>Имя:</strong> {{ citizen.name }}</p>
+       <p><strong>Отчество:</strong> {{ citizen.patronymic }}</p>
+       <p><strong>Телефон:</strong> {{ citizen.tel }}</p>
+       <p><strong>Email:</strong> {{ citizen.email }}</p>
+    {% elif employee %}
+       <h3>Информация о сотруднике</h3>
+       <p><strong>Фамилия:</strong> {{ employee.surname }}</p>
+       <p><strong>Имя:</strong> {{ employee.name }}</p>
+       <p><strong>Отчество:</strong> {{ employee.patronymic }}</p>
+    {% else %}
+        <p>Информация о профиле не найдена</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">На главную</a>
+{% endblock %}
