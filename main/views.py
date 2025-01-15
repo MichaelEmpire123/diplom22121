@@ -1,10 +1,8 @@
-
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, EmailAuthenticationForm, LogoutForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # Импортируем messages framework
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, logout
 from .models import Users, Citizens, Employees
 def home(req):
     return render(req, 'main/index.html')
@@ -30,14 +28,13 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = EmailAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = authenticate(request, username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password'))
-            if user is not None:
-                login(request, user)
-                return redirect('home')  # Перенаправление на главную после входа
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
     else:
-        form = AuthenticationForm()
+        form = EmailAuthenticationForm()
     return render(request, 'auth/login.html', {'form': form})
 
 
@@ -58,3 +55,14 @@ def profile(request):
         'employee': employee,
     }
     return render(request, 'auth/profile.html', context)
+
+
+def logout_view(request):
+    if request.method == 'POST':
+        form = LogoutForm(request.POST)
+        if form.is_valid():
+            logout(request)
+            return redirect('/') # Перенаправление на главную страницу после выхода
+    else:
+        form = LogoutForm()
+    return render(request, 'auth/logout.html', {'form': form})

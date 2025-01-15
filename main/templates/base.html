@@ -12,8 +12,11 @@
         <nav>
             <a href="{% url 'home' %}">Главная</a>
             {% if user.is_authenticated %}
-                 <a href="{% url 'profile' %}">Профиль</a>
-                <a href="{% url 'logout' %}">Выход</a>
+                <a href="{% url 'profile' %}">Профиль</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Выйти</button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}">Вход</a>
                 <a href="{% url 'register' %}">Регистрация</a>
