@@ -1,6 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+
 from .models import Citizens, Users
 
 # Регистрация
@@ -16,24 +19,25 @@ class UserRegistrationForm(UserCreationForm):
         fields = ['email', 'password1', 'password2', 'surname', 'name', 'patronymic', 'tel']
 
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = self.cleaned_data['email']  # Используем email как username
-        user.email = self.cleaned_data['email']
-
-        if commit:
-            user.save()
-            # Создаем объект гражданина
-            citizen = Citizens.objects.create(
-                surname=self.cleaned_data['surname'],
-                name=self.cleaned_data['name'],
-                patronymic=self.cleaned_data.get('patronymic', ''),
-                tel=self.cleaned_data.get('tel', ''),
-                email=self.cleaned_data['email'],
-            )
-            # Создаем объект пользователя
-            Users.objects.create(user=user, id_citizen=citizen)
-
-        return user
+        try:
+            email = self.cleaned_data.get('email')
+            user, created = User.objects.get_or_create(username=email, email=email)
+            if not created:
+                raise ValidationError("Пользователь с таким email уже существует.")
+            if commit:
+                user.set_password(self.cleaned_data.get('password2'))
+                user.save()
+                citizen = Citizens.objects.create(
+                    surname=self.cleaned_data.get('surname'),
+                    name=self.cleaned_data.get('name'),
+                    patronymic=self.cleaned_data.get('patronymic', ''),
+                    tel=self.cleaned_data.get('tel', ''),
+                    email=self.cleaned_data.get('email'),
+                )
+                Users.objects.create(user=user, id_citizen=citizen)
+            return user
+        except IntegrityError as e:
+            raise ValidationError(f"Ошибка при сохранении данных: {e}")
 
 
 # Авторизация

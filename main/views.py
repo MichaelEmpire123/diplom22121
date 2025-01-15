@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+
 from .forms import UserRegistrationForm, EmailAuthenticationForm, LogoutForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -12,20 +14,20 @@ def home(req):
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Регистрация прошла успешно! Теперь вы можете войти в систему.') # сообщение об успехе
-            return redirect('login')
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.') # сообщение об ошибке
+        try:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Регистрация прошла успешно! Теперь вы можете войти в систему.')
+                return redirect('login')
+        except ValidationError as e:
+             form.add_error(None, e)
 
     else:
         form = UserRegistrationForm()
-
     return render(request, 'auth/register.html', {'form': form})
 
 
-
+# Авторизация
 def login_view(request):
     if request.method == 'POST':
         form = EmailAuthenticationForm(request, data=request.POST)
@@ -38,6 +40,7 @@ def login_view(request):
     return render(request, 'auth/login.html', {'form': form})
 
 
+# Профиль пользователя
 @login_required
 def profile(request):
     user_profile = get_object_or_404(Users, user=request.user)
@@ -56,7 +59,12 @@ def profile(request):
     }
     return render(request, 'auth/profile.html', context)
 
+@login_required
+def change_profile(request):
+    return render(request, 'auth/change_data_profile.html')
 
+
+# Выход
 def logout_view(request):
     if request.method == 'POST':
         form = LogoutForm(request.POST)

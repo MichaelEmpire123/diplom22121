@@ -1,24 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Профиль пользователя</h2>
-    <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+<div class="profile">
+    <div>
+        <nav class="nav nav-pills flex-column profile_nav">
+            <a class="profile_nav_a flex-sm-fill text-sm-center nav-link active" aria-current="page" href="{% url 'profile' %}">Профиль</a>
+            <a class="profile_nav_a flex-sm-fill text-sm-center nav-link" href="{% url 'change_data' %}">Изменить данные</a>
+            <a class="profile_nav_a flex-sm-fill text-sm-center nav-link" href="#">Отправить запрос</a>
+            <a class="profile_nav_a flex-sm-fill text-sm-center nav-link" href="#">Список обращений</a>
+        </nav>
+    </div>
 
-    {% if citizen %}
-       <h3>Информация о гражданине</h3>
-       <p><strong>Фамилия:</strong> {{ citizen.surname }}</p>
-       <p><strong>Имя:</strong> {{ citizen.name }}</p>
-       <p><strong>Отчество:</strong> {{ citizen.patronymic }}</p>
-       <p><strong>Телефон:</strong> {{ citizen.tel }}</p>
-       <p><strong>Email:</strong> {{ citizen.email }}</p>
-    {% elif employee %}
-       <h3>Информация о сотруднике</h3>
-       <p><strong>Фамилия:</strong> {{ employee.surname }}</p>
-       <p><strong>Имя:</strong> {{ employee.name }}</p>
-       <p><strong>Отчество:</strong> {{ employee.patronymic }}</p>
-    {% else %}
-        <p>Информация о профиле не найдена</p>
-    {% endif %}
+    <div class="data_profile">
+        <h2>Профиль пользователя</h2>
+        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
 
-    <a href="{% url 'home' %}">На главную</a>
+        {% if citizen %}
+           <h3>Информация о гражданине</h3>
+           <p><strong>Фамилия:</strong> {{ citizen.surname }}</p>
+           <p><strong>Имя:</strong> {{ citizen.name }}</p>
+           <p><strong>Отчество:</strong> {{ citizen.patronymic }}</p>
+           <p><strong>Телефон:</strong> {{ citizen.tel }}</p>
+           <p><strong>Email:</strong> {{ citizen.email }}</p>
+        {% elif employee %}
+           <h3>Информация о сотруднике</h3>
+           <p><strong>Фамилия:</strong> {{ employee.surname }}</p>
+           <p><strong>Имя:</strong> {{ employee.name }}</p>
+           <p><strong>Отчество:</strong> {{ employee.patronymic }}</p>
+        {% else %}
+            <p>Информация о профиле не найдена</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}">На главную</a>
+    </div>
+
+</div>
+
 {% endblock %}

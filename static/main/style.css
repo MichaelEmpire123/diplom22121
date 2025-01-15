@@ -1,3 +1,20 @@
-#file_chat {
+.profile {
+    display: flex;
+    justify-content: space-between;
+}
+.profile_nav {
+    width: 208px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-size: 16px;
+}
 
+.profile_nav_a {
+    border-bottom: 1px solid #000;
+    color: #626262;
+}
+
+.profile_nav_a:hover {
+    color: #EBEBEB;
+    background: #0D6EFD;
 }
